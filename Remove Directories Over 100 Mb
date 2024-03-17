@@ -1,0 +1,17 @@
+#!/bin/bash
+
+limit=100M
+source="/mnt/user/data/media/movies"
+
+limit=$(echo $limit | cut -d 'M' -f 1)
+
+for dir in "$source"/*/
+do
+	size=$(du -sBM "$dir" | cut -d 'M' -f 1)
+
+	if (( $limit > $size ))
+	then
+		echo remove: $dir
+		rm -rf "$dir"
+	fi
+done
