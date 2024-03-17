@@ -1,0 +1,17 @@
+#!/bin/bash
+#Remove directories within a source directory over a certain size
+limit=20G
+source="/mnt/user/data/media/movies"
+
+limit=$(echo $limit | cut -d 'G' -f 1)
+
+for dir in "$source"/*/
+do
+	size=$(du -sBG "$dir" | cut -d 'G' -f 1)
+
+	if (( $size > $limit ))
+	then
+		echo remove: $dir
+		rm -rf "$dir"
+	fi
+done
